@@ -1,0 +1,77 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["time"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"proposalNames","type":"string[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "vote",
+			"inputs": [
+				{"name":"proposalIndex","type":"uint256"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getWinner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"winnerName","type":"string"},
+				{"name":"winnerVoteCount","type":"uint256"}
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"owner","type":"address"}
+			]
+		},
+		{
+			"name": "votedAddresses",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"votedAddresses","type":"address[]"}
+			]
+		},
+		{
+			"name": "proposals",
+			"inputs": [
+			],
+			"outputs": [
+				{"components":[{"name":"name","type":"string"},{"name":"voteCount","type":"uint256"}],"name":"proposals","type":"map(uint256,tuple)"}
+			]
+		},
+		{
+			"name": "numProposals",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"numProposals","type":"uint256"}
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"owner","type":"address"},
+		{"name":"votedAddresses","type":"address[]"},
+		{"components":[{"name":"name","type":"string"},{"name":"voteCount","type":"uint256"}],"name":"proposals","type":"map(uint256,tuple)"},
+		{"name":"numProposals","type":"uint256"}
+	]
+}

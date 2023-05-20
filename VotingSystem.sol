@@ -10,17 +10,16 @@ contract VotingSystem {
     // Адрес владельца контракта
     address public owner;
 
-    // Отображение индекса предложения на объект Proposal
-    mapping(uint => Proposal) public proposals;
+    address[] public votedAddresses;
 
-    // Словарь для проверки голосовавших
-    mapping(address => bool) public hasVoted;
+    // Отображение индекса предложения на объект Proposal
+    mapping(uint256 => Proposal) public proposals;
 
     // Количество предложений
     uint public numProposals;
 
     // Конструктор, который принимает массив имен предложений и инициализирует отображение proposals
-    constructor(string[] memory proposalNames) public {
+    constructor(string[] proposalNames) public {
         owner = msg.sender;
 
         numProposals = proposalNames.length;
@@ -32,29 +31,37 @@ contract VotingSystem {
             });
         }
     }
+    function hasVoted(address addr) private view returns (bool) {
+        for (uint i = 0; i < votedAddresses.length; i++) {
+            if (votedAddresses[i] == addr) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Функция vote, которая позволяет пользователю проголосовать за предложение
     function vote(uint proposalIndex) public {
-        require(proposalIndex >= 0 && proposalIndex < numProposals, "Invalid proposal index");
-        require(!hasVoted[msg.sender], "Already voted"); // Проверка пользователя
+        require(proposalIndex >= 0 && proposalIndex < numProposals, 101, "Invalid index");
+        require(!hasVoted(msg.sender), 101, "You already voted"); 
 
-        Proposal storage proposal = proposals[proposalIndex];
+        Proposal proposal = proposals[proposalIndex];
         proposal.voteCount += 1;
 
-        hasVoted[msg.sender] = true;
+        votedAddresses.push(msg.sender);
     }
 
     // Получение победившего предложения
-    function getWinner() public view returns (string memory winnerName, uint winnerVoteCount) {
+    function getWinner() public view returns (string winnerName, uint winnerVoteCount) {
         uint maxVotes = 0;
-
         for (uint i = 0; i < numProposals; i++) {
-            Proposal storage proposal = proposals[i];
+            Proposal proposal = proposals[i];
             if (proposal.voteCount > maxVotes) {
                 maxVotes = proposal.voteCount;
                 winnerName = proposal.name;
                 winnerVoteCount = proposal.voteCount;
             }
         }
+        return (winnerName, winnerVoteCount);
     }
 }
