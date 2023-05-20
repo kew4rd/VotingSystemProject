@@ -14,6 +14,9 @@ interface IVotingSystem {
     // Отображение индекса предложения на объект Proposal
     mapping(uint => Proposal) public proposals;
 
+    // Словарь для проверки голосовавших
+    mapping(address => bool) public hasVoted;
+
     // Количество предложений
     uint public numProposals;
 
